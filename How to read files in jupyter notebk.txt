@@ -1,0 +1,23 @@
+How to read excel /csv files in jupyter notebook in vscode
+
+get the file path, e.g 
+C:\Users\Win10 X64\Desktop\MY-DAC-Curriculum\DAC-003_Intro_to_Tableau\Netflix_Userbase.csv
+
+If the error occurs below:
+SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position 2-3: truncated \UXXXXXXXX escape
+
+The error you're encountering, SyntaxError: (unicode error) 'unicodeescape' codec can't decode bytes in position..., 
+occurs because the backslashes (\) in your file path are being interpreted as escape characters.
+
+Fix:
+
+(Recommended, just need to type the 'r' in front)
+df = pd.read_csv(r"C:\Users\Win10 X64\Desktop\MY-DAC-Curriculum\DAC-003_Intro_to_Tableau\Netflix_Userbase.csv")
+
+OR
+
+df = pd.read_csv("C:\\Users\\Win10 X64\\Desktop\\MY-DAC-Curriculum\\DAC-003_Intro_to_Tableau\\Netflix_Userbase.csv")
+
+
+
+
