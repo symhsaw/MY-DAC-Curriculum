@@ -11,6 +11,9 @@
 -- humanresources.employee table
 
 --Answer
+SELECT*
+FROM humanresources.employee
+ORDER BY jobtitle ASC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -18,6 +21,9 @@
 -- The third column heading is renamed to employee_id. Arranged the output in ascending order by lastname.
 
 --Answer
+SELECT firstName,lastName,businessentityid AS employee_id
+FROM person.person
+ORDER BY lastname ASC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -27,6 +33,10 @@
 -- production.product
 
 --Answer
+SELECT productid,productnumber,name AS productname
+FROM production.product
+WHERE sellstartdate IS NOT NULL AND productline = 'T'
+ORDER BY name ASC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -36,6 +46,11 @@
 -- sales.salesorderheader
 
 --Answer
+SELECT customerid, SUM(freight) AS total_freight
+FROM sales.salesorderheader
+GROUP BY customerid
+ORDER BY customerid ASC;
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -45,6 +60,9 @@
 -- person.businessentityaddress
 
 --Answer
+SELECT addresstypeid,COUNT(businessentityid)
+FROM person.businessentityaddress
+GROUP BY addresstypeid;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -53,7 +71,18 @@
 
 -- person.businessentitycontact, person.contacttype, person.person
 
---Answer
+--Answer (unable to solve)
+
+SELECT contacttype.name
+FROM person.businessentitycontact
+INNER JOIN person.contacttype
+ON businessentitycontact.contacttypeid = contacttype.contacttypeid
+INNER JOIN person.person
+ON person.businessentityid = businessentitycontact.businessentityid
+
+
+
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -61,6 +90,13 @@
 -- Return SalesOrderID, total cost. Round to 2 decimal place and add the dollar sign at the front.
 
 --Answer
+SELECT salesorderID,ROUND(SUM(unitprice),2) AS total_cost
+FROM sales.salesorderdetail
+GROUP BY salesorderID
+HAVING SUM(unitprice) > 100000
+
+--Does not have any that is >100,000 , but have > 10,000
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -68,12 +104,20 @@
 -- Return lastname, and firstname and display the result in ascending order on firstname and descending order on lastname columns.
 
 --Answer
+SELECT lastname,firstname 
+FROM person.person
+WHERE lastname LIKE 'R%' AND firstname LIKE '%n'
+ORDER BY firstname ASC,lastname DESC;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
 -- Q9: From the following humanresources.department table write a query in  SQL to skip the first 5 rows and return the next 5 rows from the sorted result set.
 
 --Answer
+SELECT*
+FROM humanresources.department
+OFFSET 5
+LIMIT 5;
 
 -------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -83,5 +127,12 @@
 -- person.person, person.personphone
 
 --Answer
+SELECT person.BusinessEntityID,person.FirstName,person.LastName,personphone.PhoneNumber
+FROM person.person
+INNER JOIN person.personphone
+ON person.businessentityid = personphone.businessentityid
+WHERE lastname LIKE 'L%'
+ORDER BY lastname ASC,firstname ASC;
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------
